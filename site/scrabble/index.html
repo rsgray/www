@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>scrabble</title>
+  </head>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      color: #333;
+      font-size: medium;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #f4f4f4;
+      margin: 5px 5px;
+      padding: 10px;
+      border-radius: 4px;
+      display: inline-block;
+      font-family: monospace;
+    }
+  </style>
+
+  <body>
+    <h1>check word</h1>
+    <input
+      type="text"
+      id="wordInput"
+      oninput="change()"
+      placeholder="Enter a word"
+    />
+    <button id="checkButton" onclick="check()">Check</button>
+    <h1>two-letter scrabble words</h1>
+    <ul id="twos"></ul>
+    <h1>three-letter scrabble words</h1>
+    <ul id="threes"></ul>
+    <script>
+      let words = [];
+
+      fetch("csw24.txt")
+        .then((response) => response.text())
+        .then((text) => {
+          const words2 = text
+            .split("\n")
+            .map((word) => word.trim().toLowerCase())
+            .filter((word) => word.length > 0);
+          words = words2;
+
+          document.getElementById("twos").innerHTML = words
+            .filter((word) => word.length === 2)
+            .map((word) => `<li>${word}</li>`)
+            .join("");
+
+          document.getElementById("threes").innerHTML = words
+            .filter((word) => word.length === 3)
+            .map((word) => `<li>${word}</li>`)
+            .join("");
+        });
+
+      const timer = null;
+
+      function change() {
+        const inputElement = document.getElementById("wordInput");
+        inputElement.removeAttribute("style");
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(check, 500);
+      }
+
+      function check() {
+        const inputElement = document.getElementById("wordInput");
+        const input = inputElement.value.trim().toLowerCase();
+        const color = words.includes(input) ? "lightgreen" : "lightcoral";
+        inputElement.setAttribute("style", `background-color: ${color};`);
+      }
+    </script>
+  </body>
+</html>
