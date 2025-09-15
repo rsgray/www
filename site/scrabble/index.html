@@ -24,6 +24,14 @@
       display: inline-block;
       font-family: monospace;
     }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 200px;
+      margin-right: 10px;
+    }
   </style>
 
   <body>
@@ -34,7 +42,6 @@
       oninput="change()"
       placeholder="Enter a word"
     />
-    <button id="checkButton" onclick="check()">Check</button>
     <h1>two-letter scrabble words</h1>
     <ul id="twos"></ul>
     <h1>three-letter scrabble words</h1>
